@@ -1,0 +1,44 @@
+{
+    "resources": {
+        "media": [
+            {
+                "name": "MENU_ICON",
+                "file": "images/simpleseconds.png",
+                "type": "png"
+            },
+            {
+                "name": "CICLE_GORDITA_28",
+                "file": "fonts/Cicle Gordita.ttf",
+                "type": "font"
+            },
+            {
+                "name": "CICLE_GORDITA_70",
+                "file": "fonts/Cicle Gordita.ttf",
+                "type": "font"
+            },
+            {
+                "name": "CICLE_FINA_28",
+                "file": "fonts/Cicle Fina.ttf",
+                "type": "font"
+            },
+            {
+                "name": "CICLE_FINA_54",
+                "file": "fonts/Cicle Fina.ttf",
+                "type": "font"
+            }
+        ]
+    },
+    "longName": "Simple Seconds",
+    "appKeys": {},
+    "watchapp": {
+        "watchface": true
+    },
+    "versionLabel": "1.0",
+    "shortName": "Simple Secs",
+    "companyName": "josh@exclaimproductions.com",
+    "capabilities": [
+        ""
+    ],
+    "versionCode": 1,
+    "uuid": "6b602447-2732-4c88-9a77-4a968d93e267"
+}
