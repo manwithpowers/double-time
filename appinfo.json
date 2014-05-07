@@ -2,6 +2,7 @@
     "resources": {
         "media": [
             {
+                "menuIcon": true,
                 "name": "MENU_ICON",
                 "file": "images/simpleseconds.png",
                 "type": "png"
