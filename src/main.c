@@ -43,8 +43,8 @@ void window_load(Window *window)
 {
 //Load fonts
 ResHandle date_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_28);
-ResHandle time_font_handle = resource_get_handle(RESOURCE_ID_CICLE_GORDITA_62);
-ResHandle sec_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_54);
+ResHandle time_font_handle = resource_get_handle(RESOURCE_ID_CICLE_GORDITA_55);
+ResHandle sec_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_50);
 
 //Date layer
 date_layer = text_layer_create(GRect(0, 0, 144, 168));
@@ -56,7 +56,7 @@ text_layer_set_font(date_layer, fonts_load_custom_font(date_font_handle));
 layer_add_child(window_get_root_layer(window), (Layer*) date_layer);	
 	
 //Time layer
-time_layer = text_layer_create(GRect(0, 45, 144, 168));
+time_layer = text_layer_create(GRect(0, 50, 144, 168));
 text_layer_set_background_color(time_layer, GColorClear);
 text_layer_set_text_color(time_layer, GColorWhite);
 text_layer_set_text_alignment(time_layer, GTextAlignmentRight);

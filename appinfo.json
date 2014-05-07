@@ -8,7 +8,7 @@
                 "type": "png"
             },
             {
-                "name": "CICLE_GORDITA_62",
+                "name": "CICLE_GORDITA_55",
                 "file": "fonts/Cicle Gordita.ttf",
                 "type": "font"
             },
@@ -18,12 +18,12 @@
                 "type": "font"
             },
             {
-                "name": "CICLE_FINA_28",
+                "name": "CICLE_FINA_50",
                 "file": "fonts/Cicle Fina.ttf",
                 "type": "font"
             },
             {
-                "name": "CICLE_FINA_54",
+                "name": "CICLE_FINA_28",
                 "file": "fonts/Cicle Fina.ttf",
                 "type": "font"
             }
