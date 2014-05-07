@@ -5,27 +5,23 @@ TextLayer *time_layer;
 TextLayer *date_layer;
 TextLayer *sec_layer;
 
-char date_buffer[] = "Mon 01 Jan";
-char time_buffer[] = "00:00";
-char sec_buffer[] = "00";
+static char date_buffer[] = "Mon 01 Jan";
+static char time_buffer[] = "00:00";
+static char sec_buffer[] = "00";
+char *time_format;
 
-//UPDATE MINUTES/TIME
+//UPDATE TIME
 void time_handler(struct tm *tick_time, TimeUnits units_changed)
 {
-//Format the buffer string using tick_time as the time source
-strftime(time_buffer, sizeof("00:00"), "%H:%M", tick_time);
-
-//Change the Time Layer text to show the new time!
-text_layer_set_text(time_layer, time_buffer);
+if(clock_is_24h_style()) {
+time_format = "%R";
+} else {
+time_format = "%I:%M";
 }
-
-//UPDATE SECONDS
-void sec_handler(struct tm *tick_time, TimeUnits units_changed)
-{
 //Format the buffer string using tick_time as the time source
 strftime(date_buffer, sizeof(date_buffer), "%a %d %b", tick_time);
 strftime(sec_buffer, sizeof(sec_buffer), "%S", tick_time);
-strftime(time_buffer, sizeof(time_buffer), "%H:%M", tick_time);
+strftime(time_buffer, sizeof(time_buffer), time_format, tick_time);
 
 //Change the Sec Layer text to show the new time!
 text_layer_set_text(sec_layer, sec_buffer);
@@ -80,7 +76,7 @@ temp = time(NULL);
 t = localtime(&temp);	
 
 //Manually call the tick handler when the window is loading
-sec_handler(t, SECOND_UNIT);
+time_handler(t, SECOND_UNIT);
 }
  
 void window_unload(Window *window)
@@ -102,7 +98,7 @@ window_set_window_handlers(window, (WindowHandlers) {
 .unload = window_unload,
 });
 
-tick_timer_service_subscribe(SECOND_UNIT, (TickHandler) sec_handler);
+tick_timer_service_subscribe(SECOND_UNIT, (TickHandler) time_handler);
 
 window_stack_push(window, true);
 }
