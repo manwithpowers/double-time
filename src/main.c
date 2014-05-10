@@ -1,10 +1,12 @@
 #include <pebble.h>
  
 Window* window;
-TextLayer *time_layer;
-TextLayer *date_layer;
-TextLayer *sec_layer;
-TextLayer *battery_layer;	
+static TextLayer *time_layer;
+static TextLayer *date_layer;
+static TextLayer *sec_layer;
+static TextLayer *battery_layer;
+static BitmapLayer *baticon_layer;
+static GBitmap *battery_icon;
 
 static char date_buffer[] = "Mon 01 Jan";
 static char time_buffer[] = "00:00";
@@ -19,6 +21,8 @@ static AppTimer *display_timer;
 static void handle_battery(BatteryChargeState charge_state) {
   static char battery_text[] = "100%";
 
+	bitmap_layer_set_bitmap(baticon_layer, battery_icon);
+	
   if (charge_state.is_charging) {
     snprintf(battery_text, sizeof(battery_text), "chrging");
   } else {
@@ -30,6 +34,8 @@ static void handle_battery(BatteryChargeState charge_state) {
 	else if (status_showing) battery_hide = false;
 	else battery_hide = true;
 	layer_set_hidden(text_layer_get_layer(battery_layer), battery_hide);
+	layer_set_hidden(bitmap_layer_get_layer(baticon_layer), battery_hide);
+	
 }
 
 //UPDATE TIME
@@ -61,6 +67,7 @@ if(date_buffer != text_layer_get_text(date_layer))
 void hide_status() {
 	status_showing = false;
 	layer_set_hidden(text_layer_get_layer(battery_layer), true);
+	layer_set_hidden(bitmap_layer_get_layer(baticon_layer), true);	
 }
 // Shows battery
 void show_status() {
@@ -113,7 +120,7 @@ text_layer_set_font(sec_layer, fonts_load_custom_font(sec_font_handle));
 layer_add_child(window_get_root_layer(window), (Layer*) sec_layer);
 	
 //Battery layer
-battery_layer = text_layer_create(GRect(0, 130, 144, 168));
+battery_layer = text_layer_create(GRect(14, 130, 144, 168));
 text_layer_set_background_color(battery_layer, GColorClear);
 text_layer_set_text_color(battery_layer, GColorWhite);
 text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
@@ -121,6 +128,13 @@ text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
 text_layer_set_font(battery_layer, fonts_load_custom_font(bat_font_handle));
 
 layer_add_child(window_get_root_layer(window), (Layer*) battery_layer);
+
+//ICON
+battery_icon = gbitmap_create_with_resource(RESOURCE_ID_BATTERY_ICON);
+baticon_layer = bitmap_layer_create(GRect(0,132,12,18));
+bitmap_layer_set_background_color(baticon_layer, GColorClear);
+
+layer_add_child(window_get_root_layer(window), (Layer*) baticon_layer);	
 
 //Get a time structure so that the face doesn't start blank
 struct tm *t;
@@ -139,7 +153,7 @@ text_layer_destroy(time_layer);
 text_layer_destroy(date_layer);
 text_layer_destroy(sec_layer);
 text_layer_destroy(battery_layer);
-
+bitmap_layer_destroy(baticon_layer);
 }
 
 void init()

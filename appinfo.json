@@ -3,6 +3,11 @@
     "resources": {
         "media": [
             {
+                "name": "BATTERY_ICON",
+                "file": "images/Icon-Battery.png",
+                "type": "png"
+            },
+            {
                 "name": "MENU_ICON",
                 "file": "images/simpleseconds.png",
                 "type": "png",
@@ -41,7 +46,7 @@
     "shortName": "Simple Secs",
     "versionLabel": "1.0",
     "versionCode": 1,
-    "companyName": "josh@exclaimproductions.com",
+    "companyName": "manwithpowers",
     "uuid": "6b602447-2732-4c88-9a77-4a968d93e267",
     "capabilities": [
         ""
