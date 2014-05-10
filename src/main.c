@@ -4,11 +4,33 @@ Window* window;
 TextLayer *time_layer;
 TextLayer *date_layer;
 TextLayer *sec_layer;
+TextLayer *battery_layer;	
 
 static char date_buffer[] = "Mon 01 Jan";
 static char time_buffer[] = "00:00";
 static char sec_buffer[] = "00";
 char *time_format;
+
+static bool status_showing = false;
+static bool battery_hide = false;
+static AppTimer *display_timer;
+
+// Battery
+static void handle_battery(BatteryChargeState charge_state) {
+  static char battery_text[] = "100%";
+
+  if (charge_state.is_charging) {
+    snprintf(battery_text, sizeof(battery_text), "chrging");
+  } else {
+    snprintf(battery_text, sizeof(battery_text), "%d%%", charge_state.charge_percent);
+  }
+  text_layer_set_text(battery_layer, battery_text);
+	if (charge_state.is_plugged) battery_hide = false;
+	else if (charge_state.charge_percent <= 30) battery_hide = false;
+	else if (status_showing) battery_hide = false;
+	else battery_hide = true;
+	layer_set_hidden(text_layer_get_layer(battery_layer), battery_hide);
+}
 
 //UPDATE TIME
 void time_handler(struct tm *tick_time, TimeUnits units_changed)
@@ -35,12 +57,33 @@ if(date_buffer != text_layer_get_text(date_layer))
 	text_layer_set_text(date_layer, date_buffer);
 }
 
+// Hides battery
+void hide_status() {
+	status_showing = false;
+	layer_set_hidden(text_layer_get_layer(battery_layer), true);
+}
+// Shows battery
+void show_status() {
+	status_showing = true;
+	//Poll for battery
+	handle_battery(battery_state_service_peek());
+	// 4 Sec timer then call "hide_status". Cancels previous timer if another show_status is called within the 4000ms
+	app_timer_cancel(display_timer);
+	display_timer = app_timer_register(4000, hide_status, NULL);
+}
+
+// Shake/Tap Handler. On shake/tap... call "show_status"
+void tap_handler(AccelAxisType axis, int32_t direction) {
+	show_status();	
+}
+
 void window_load(Window *window)
 {
 //Load fonts
 ResHandle date_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_28);
 ResHandle time_font_handle = resource_get_handle(RESOURCE_ID_CICLE_GORDITA_55);
 ResHandle sec_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_50);
+ResHandle bat_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_18);
 
 //Date layer
 date_layer = text_layer_create(GRect(0, 0, 144, 168));
@@ -67,7 +110,17 @@ text_layer_set_text_color(sec_layer, GColorWhite);
 text_layer_set_text_alignment(sec_layer, GTextAlignmentRight);
 text_layer_set_font(sec_layer, fonts_load_custom_font(sec_font_handle));
 
-layer_add_child(window_get_root_layer(window), (Layer*) sec_layer);	
+layer_add_child(window_get_root_layer(window), (Layer*) sec_layer);
+	
+//Battery layer
+battery_layer = text_layer_create(GRect(0, 130, 144, 168));
+text_layer_set_background_color(battery_layer, GColorClear);
+text_layer_set_text_color(battery_layer, GColorWhite);
+text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
+//text_layer_set_font(battery_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
+text_layer_set_font(battery_layer, fonts_load_custom_font(bat_font_handle));
+
+layer_add_child(window_get_root_layer(window), (Layer*) battery_layer);
 
 //Get a time structure so that the face doesn't start blank
 struct tm *t;
@@ -85,6 +138,7 @@ void window_unload(Window *window)
 text_layer_destroy(time_layer);
 text_layer_destroy(date_layer);
 text_layer_destroy(sec_layer);
+text_layer_destroy(battery_layer);
 
 }
 
@@ -99,14 +153,23 @@ window_set_window_handlers(window, (WindowHandlers) {
 });
 
 tick_timer_service_subscribe(SECOND_UNIT, (TickHandler) time_handler);
+battery_state_service_subscribe(&handle_battery);
+accel_tap_service_subscribe(tap_handler);
+	
 
 window_stack_push(window, true);
+
+	//comment this out if you don't want battery level on start
+show_status();
+
 }
  
 void deinit()
 {
 //De-initialize elements here to save memory!
 tick_timer_service_unsubscribe();
+battery_state_service_unsubscribe();
+accel_tap_service_unsubscribe();
 
 window_destroy(window);
 }
