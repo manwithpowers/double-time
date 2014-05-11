@@ -21,6 +21,11 @@ static AppTimer *display_timer;
 static void handle_battery(BatteryChargeState charge_state) {
   static char battery_text[] = "100%";
 
+	if (charge_state.charge_percent <= 80) battery_icon = gbitmap_create_with_resource(RESOURCE_ID_BATTERY_ICON_75);
+	if (charge_state.charge_percent <= 50) battery_icon = gbitmap_create_with_resource(RESOURCE_ID_BATTERY_ICON_50);
+	if (charge_state.charge_percent <= 30) battery_icon = gbitmap_create_with_resource(RESOURCE_ID_BATTERY_ICON_25);
+	if (charge_state.charge_percent <= 10) battery_icon = gbitmap_create_with_resource(RESOURCE_ID_BATTERY_ICON_0);
+	
 	bitmap_layer_set_bitmap(baticon_layer, battery_icon);
 	
   if (charge_state.is_charging) {

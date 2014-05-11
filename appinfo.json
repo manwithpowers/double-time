@@ -1,55 +1,75 @@
 {
-    "appKeys": {},
-    "resources": {
-        "media": [
-            {
-                "name": "BATTERY_ICON",
-                "file": "images/Icon-Battery.png",
-                "type": "png"
-            },
-            {
-                "name": "MENU_ICON",
-                "file": "images/simpleseconds.png",
-                "type": "png",
-                "menuIcon": true
-            },
-            {
-                "name": "CICLE_GORDITA_55",
-                "file": "fonts/Cicle Gordita.ttf",
-                "type": "font"
-            },
-            {
-                "name": "CICLE_GORDITA_28",
-                "file": "fonts/Cicle Gordita.ttf",
-                "type": "font"
-            },
-            {
-                "name": "CICLE_FINA_18",
-                "file": "fonts/Cicle Fina.ttf",
-                "type": "font"
-            },
-            {
-                "name": "CICLE_FINA_28",
-                "file": "fonts/Cicle Fina.ttf",
-                "type": "font"
-            },
-            {
-                "name": "CICLE_FINA_50",
-                "file": "fonts/Cicle Fina.ttf",
-                "type": "font"
-            }
-        ]
-    },
-    "watchapp": {
-        "watchface": true
-    },
-    "shortName": "Simple Secs",
-    "versionLabel": "1.0",
     "versionCode": 1,
-    "companyName": "manwithpowers",
-    "uuid": "6b602447-2732-4c88-9a77-4a968d93e267",
+    "shortName": "Simple Secs",
     "capabilities": [
         ""
     ],
+    "resources": {
+        "media": [
+            {
+                "type": "png",
+                "name": "BATTERY_ICON_0",
+                "file": "images/Icon-Battery-0.png"
+            },
+            {
+                "type": "png",
+                "name": "BATTERY_ICON_25",
+                "file": "images/Icon-Battery-25.png"
+            },
+            {
+                "type": "png",
+                "name": "BATTERY_ICON_50",
+                "file": "images/Icon-Battery-50.png"
+            },
+            {
+                "type": "png",
+                "name": "BATTERY_ICON_75",
+                "file": "images/Icon-Battery-75.png"
+            },
+            {
+                "type": "png",
+                "name": "BATTERY_ICON",
+                "file": "images/Icon-Battery.png"
+            },
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "MENU_ICON",
+                "file": "images/simpleseconds.png"
+            },
+            {
+                "type": "font",
+                "name": "CICLE_GORDITA_55",
+                "file": "fonts/Cicle Gordita.ttf"
+            },
+            {
+                "type": "font",
+                "name": "CICLE_GORDITA_28",
+                "file": "fonts/Cicle Gordita.ttf"
+            },
+            {
+                "type": "font",
+                "name": "CICLE_FINA_18",
+                "file": "fonts/Cicle Fina.ttf"
+            },
+            {
+                "type": "font",
+                "name": "CICLE_FINA_28",
+                "file": "fonts/Cicle Fina.ttf"
+            },
+            {
+                "type": "font",
+                "name": "CICLE_FINA_50",
+                "file": "fonts/Cicle Fina.ttf"
+            }
+        ]
+    },
+    "versionLabel": "1.0",
+    "companyName": "manwithpowers",
+    "watchapp": {
+        "watchface": true
+    },
+    "uuid": "6b602447-2732-4c88-9a77-4a968d93e267",
+    "appKeys": {},
     "longName": "Simple Seconds"
 }
