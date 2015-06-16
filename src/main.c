@@ -9,7 +9,7 @@ static BitmapLayer *baticon_layer;
 static GBitmap *battery_icon;
 
 static char date_buffer[] = "Mon 01 Jan";
-static char time_buffer[] = "00:00";
+static char time_buffer[] = "12:00";
 static char sec_buffer[] = "00";
 char *time_format;
 
@@ -55,7 +55,7 @@ time_format = "%I:%M";
 strftime(date_buffer, sizeof(date_buffer), "%a %d %b", tick_time);
 strftime(sec_buffer, sizeof(sec_buffer), "%S", tick_time);
 strftime(time_buffer, sizeof(time_buffer), time_format, tick_time);
-
+	
 //Change the Sec Layer text to show the new time!
 text_layer_set_text(sec_layer, sec_buffer);
 	
@@ -92,7 +92,7 @@ void tap_handler(AccelAxisType axis, int32_t direction) {
 void window_load(Window *window)
 {
 //Load fonts
-ResHandle date_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_28);
+ResHandle date_font_handle = resource_get_handle(RESOURCE_ID_CICLE_GORDITA_30);
 ResHandle time_font_handle = resource_get_handle(RESOURCE_ID_CICLE_GORDITA_55);
 ResHandle sec_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_50);
 ResHandle bat_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_18);
@@ -100,7 +100,11 @@ ResHandle bat_font_handle = resource_get_handle(RESOURCE_ID_CICLE_FINA_18);
 //Date layer
 date_layer = text_layer_create(GRect(0, 0, 144, 168));
 text_layer_set_background_color(date_layer, GColorClear);
-text_layer_set_text_color(date_layer, GColorWhite);
+#ifdef PBL_COLOR
+	text_layer_set_text_color(date_layer, GColorMelon);
+#else
+	text_layer_set_text_color(date_layer, GColorWhite);
+#endif
 text_layer_set_text_alignment(date_layer, GTextAlignmentLeft);
 text_layer_set_font(date_layer, fonts_load_custom_font(date_font_handle));
 
@@ -118,7 +122,11 @@ layer_add_child(window_get_root_layer(window), (Layer*) time_layer);
 //Sec layer
 sec_layer = text_layer_create(GRect(0, 100, 144, 168));
 text_layer_set_background_color(sec_layer, GColorClear);
-text_layer_set_text_color(sec_layer, GColorWhite);
+#ifdef PBL_COLOR
+	text_layer_set_text_color(sec_layer, GColorMelon);
+#else
+	text_layer_set_text_color(sec_layer, GColorWhite);
+#endif
 text_layer_set_text_alignment(sec_layer, GTextAlignmentRight);
 text_layer_set_font(sec_layer, fonts_load_custom_font(sec_font_handle));
 
